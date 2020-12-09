@@ -53,7 +53,11 @@ public:
         if (msg.data == "w"){
             leftWheelSpeed = 1.0;
             rightWheelSpeed = 1.0;
-        
+
+        }else if (msg.data == "c"){
+            leftWheelSpeed = 0.5;
+            rightWheelSpeed = leftWheelSpeed*1.1;
+
         }else if(msg.data=="s"){
             leftWheelSpeed = -1.0;
             rightWheelSpeed = -1.0;
@@ -76,7 +80,7 @@ public:
 
         }
     }
-   
+
 };
 int main(int argc, char ** argv){
   ros::init(argc, argv, "jetbotDriveCmd");
