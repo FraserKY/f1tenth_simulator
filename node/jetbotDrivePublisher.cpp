@@ -55,8 +55,13 @@ public:
             rightWheelSpeed = 1.0;
 
         }else if (msg.data == "c"){
+	        double tc_radius = 4;
+	        double wheel_track = 0.1;
+	        double wheel_d_inside = 2 * 3.14 * tc_radius;
+	        double wheel_d_outside = 2 * 3.14 * (tc_radius + wheel_track);
+	        double ratio = wheel_d_outside / wheel_d_inside;
             leftWheelSpeed = 0.5;
-            rightWheelSpeed = leftWheelSpeed*1.1;
+            rightWheelSpeed = leftWheelSpeed*ratio;
 
         }else if(msg.data=="s"){
             leftWheelSpeed = -1.0;
