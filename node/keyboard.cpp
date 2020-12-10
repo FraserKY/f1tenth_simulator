@@ -18,14 +18,21 @@ void sigHandler(int not_used) {
 }
 
 int main(int argc, char ** argv) {
+
+    // Initialise the ROS Node, contacts the ROS master and registers the node in the system
     ros::init(argc, argv, "keyboard");
+
     // Initialize Node Handle
     ros::NodeHandle n = ros::NodeHandle("~");
 
-    // Initialze publisher
+    // Initialze publisher (initialises variable - type 'string')
     std::string keyboard_topic;
+
+    // gets a parameter from the parameter servers dictionary 'getParam(<key>, <storage variable>)'
     n.getParam("keyboard_topic", keyboard_topic);
 
+    // Connects to the Master to publicise that the node will be publishing to the given topic
+    // returns a 'publisher' that allows a message to be published on the topic
     ros::Publisher key_pub = n.advertise<std_msgs::String>(keyboard_topic, 10);
 
 
