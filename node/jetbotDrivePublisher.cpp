@@ -72,10 +72,12 @@ public:
         }
 
         if (msg.data == "w"){
+            // static mode
             if (mode == "s_static"){
                 leftWheelSpeed = 1.0;
                 rightWheelSpeed = 1.0;
             }else{
+                // speed increase mode
                 while (leftWheelSpeed < 20){
                 leftWheelSpeed = leftWheelSpeed + 0.2;
                 rightWheelSpeed = rightWheelSpeed + 0.2;
@@ -92,8 +94,17 @@ public:
             rightWheelSpeed = leftWheelSpeed*ratio;
 
         }else if(msg.data=="s"){
-            leftWheelSpeed = -1.0;
-            rightWheelSpeed = -1.0;
+
+            if (mode == "s_static"){
+                leftWheelSpeed = -1.0;
+                rightWheelSpeed = -1.0;
+            }else{
+                // speed decrease mode
+                while (leftWheelSpeed > -20){
+                leftWheelSpeed = leftWheelSpeed - 0.2;
+                rightWheelSpeed = rightWheelSpeed - 0.2;
+                } 
+            }
 
         }else if(msg.data == "a"){
             leftWheelSpeed = -1.0*rotationWheelSpeedScale;
