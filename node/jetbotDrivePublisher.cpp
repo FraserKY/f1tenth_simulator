@@ -13,7 +13,6 @@ private:
     // NodeHandle starts a node, with name 'n'
     ros::NodeHandle n;
 
-
     ros::Subscriber key_sub;
 
     ros::Publisher diff_drive_pub;
@@ -37,11 +36,14 @@ public:
         n.getParam("keyboard_topic", key_topic);
         n.getParam("jetbot_rotation_wheel_speed_scale", rotationWheelSpeedScale);
 
+        // Advertise tells ROS master you want to publish information on a given topic (diff_drive_topic), 
+        // Returns a publisher object that allows you to publish to the topic, using the .publish command
+        // the number refers to the size of the buffer, ie how many messages to store, if messages are arriving more
+        // quickly than they can be sent
         diff_drive_pub = n.advertise<std_msgs::Float64MultiArray>(diff_drive_topic, 10);
 
-
-
-        // Subscribes to the key_topic topic, then calls the key_callback function whenever a message arrives. The 2nd argument is the queue size.
+        // Subscribes to the key_topic topic, then calls the key_callback function whenever a message arrives.
+        // The 2nd argument is the queue size.
         key_sub = n.subscribe(key_topic, 1, &jetbotDriveCmd::key_callback, this);
 
     }
@@ -51,7 +53,7 @@ public:
     {
         // Creates an array 
         std_msgs::Float64MultiArray diffDriveMsg;
-        //clears the array
+        // clears the array
 	    diffDriveMsg.data.clear();
         // Adds rightWheelTrq to the end of the array
 	    diffDriveMsg.data.push_back(rightWheelTrq);
@@ -61,9 +63,6 @@ public:
     }
 
     void key_callback(const std_msgs::String & msg){
-        
-         
-        
 
         bool publish = true;
 
@@ -72,11 +71,11 @@ public:
             // If in increase mode, swap to constant
             if (mode == 2){
                 mode = 1;
-                cout << "Constant Speed Mode"
+                cout << "Constant Speed Mode" << endl;
                 // else swap to increase
             }else{
                 mode = 2;
-                cout << "Game Mode";
+                cout << "Game Mode" << endl;
             }
         }
 
@@ -126,21 +125,22 @@ public:
         }
         if (publish){
             publish_to_diff_drive(rightWheelSpeed , leftWheelSpeed);
-
         }
     }
 
 };
 int main(int argc, char ** argv){
 
-  ros::init(argc, argv, "jetbotDriveCmd");
+    //
+    ros::init(argc, argv, "jetbotDriveCmd");
 
-  jetbotDriveCmd jetDriver;
+    // 
+    jetbotDriveCmd jetDriver;
 
-  // spin() causes the code to loop
-  ros::spin();
-  
-  return 0;
-  }
+    // spin() causes the code to loop
+    ros::spin();
+    
+    return 0;
+}
 
 
