@@ -56,15 +56,15 @@ public:
     void key_callback(const std_msgs::String & msg){
         double leftWheelSpeed;
         double rightWheelSpeed;
-        char mode = 's_increase';
+        char mode = 's_cost';
 
         bool publish = true;
 
         // Mode swap
         if (msg.data == "m"){
-            // If in increase mode, swap to static
+            // If in increase mode, swap to constant
             if (mode == 's_increase'){
-                mode = 's_static';
+                mode = 's_const';
                 // else swap to increase
             }else{
                 mode = 's_increase'
@@ -72,8 +72,8 @@ public:
         }
 
         if (msg.data == "w"){
-            // static mode
-            if (mode == "s_static"){
+            // s_const mode
+            if (mode == "s_const"){
                 leftWheelSpeed = 1.0;
                 rightWheelSpeed = 1.0;
             }else{
@@ -95,7 +95,7 @@ public:
 
         }else if(msg.data=="s"){
 
-            if (mode == "s_static"){
+            if (mode == "s_const"){
                 leftWheelSpeed = -1.0;
                 rightWheelSpeed = -1.0;
             }else{
