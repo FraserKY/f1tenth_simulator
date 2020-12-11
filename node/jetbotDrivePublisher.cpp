@@ -56,12 +56,31 @@ public:
     void key_callback(const std_msgs::String & msg){
         double leftWheelSpeed;
         double rightWheelSpeed;
+        char mode = 's_increase';
 
         bool publish = true;
 
+        // Mode swap
+        if (msg.data == "m"){
+            // If in increase mode, swap to static
+            if (mode == 's_increase'){
+                mode = 's_static';
+                // else swap to increase
+            }else{
+                mode = 's_increase'
+            }
+        }
+
         if (msg.data == "w"){
-            leftWheelSpeed = 1.0;
-            rightWheelSpeed = 1.0;
+            if (mode == "s_static"){
+                leftWheelSpeed = 1.0;
+                rightWheelSpeed = 1.0;
+            }else{
+                while (leftWheelSpeed < 20){
+                leftWheelSpeed = leftWheelSpeed + 0.2;
+                rightWheelSpeed = rightWheelSpeed + 0.2;
+                } 
+            }
 
         }else if (msg.data == "c"){
             double tc_radius = 4;
@@ -84,10 +103,6 @@ public:
             leftWheelSpeed = 1.0*rotationWheelSpeedScale;
             rightWheelSpeed = -1.0*rotationWheelSpeedScale;
         }else if (msg.data ==" "){
-            leftWheelSpeed = 0.0;
-            rightWheelSpeed = 0.0;
-        // 
-        }else if (msg.data ==""){
             leftWheelSpeed = 0.0;
             rightWheelSpeed = 0.0;
         }else {
