@@ -6,6 +6,7 @@
 class jetbotDriveCmd
 {
 private:
+    // NodeHandle starts a node, with name 'n'
     ros::NodeHandle n;
 
 
@@ -88,9 +89,14 @@ public:
 
 };
 int main(int argc, char ** argv){
+
   ros::init(argc, argv, "jetbotDriveCmd");
+
   jetbotDriveCmd jetDriver;
+
+  // spin() causes the code to loop
   ros::spin();
+  
   return 0;
   }
 

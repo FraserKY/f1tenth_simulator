@@ -5,6 +5,7 @@
 #include <termios.h>
 
 #include <stdio.h>
+
 #include <signal.h>
 
 // for printing
@@ -36,12 +37,21 @@ int main(int argc, char ** argv) {
     ros::Publisher key_pub = n.advertise<std_msgs::String>(keyboard_topic, 10);
 
 
+
+    // A data structure to contain information from the terminal
     static struct termios oldt, newt;
+
+    // tcgetattr gets parameters from the terminal
     tcgetattr( STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~(ICANON);
+
+    // tcsetattr sets parameters associated with the termina;
     tcsetattr( STDIN_FILENO, 0, &newt);
 
+
+
+    // 
     struct sigaction act;
     act.sa_handler = sigHandler;
     sigaction(SIGINT, &act, NULL);
