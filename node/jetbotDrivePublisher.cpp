@@ -20,6 +20,9 @@ private:
     double prev_key_velocity = 0.0;
     double keyboard_max_speed = 1.0;
     double rotationWheelSpeedScale;
+    double leftWheelSpeed = 0;
+    double rightWheelSpeed = 0;
+    double mode = 2;
 
 public:
     jetbotDriveCmd()
@@ -57,34 +60,32 @@ public:
     }
 
     void key_callback(const std_msgs::String & msg){
-        double leftWheelSpeed;
-        double rightWheelSpeed;
-        char mode = 's_cost';
+        
+         
+        
 
         bool publish = true;
 
         // Mode swap
         if (msg.data == "m"){
             // If in increase mode, swap to constant
-            if (mode == 's_increase'){
-                mode = 's_const';
+            if (mode == 2){
+                mode = 1;
                 // else swap to increase
             }else{
-                mode = 's_increase'
+                mode = 2;
             }
         }
 
         if (msg.data == "w"){
             // s_const mode
-            if (mode == "s_const"){
+            if (mode == 1){
                 leftWheelSpeed = 1.0;
                 rightWheelSpeed = 1.0;
             }else{
                 // speed increase mode
-                while (leftWheelSpeed < 20){
                 leftWheelSpeed = leftWheelSpeed + 0.2;
-                rightWheelSpeed = rightWheelSpeed + 0.2;
-                } 
+                rightWheelSpeed = rightWheelSpeed + 0.2; 
             }
 
         }else if (msg.data == "c"){
@@ -98,15 +99,13 @@ public:
 
         }else if(msg.data=="s"){
 
-            if (mode == "s_const"){
+            if (mode == 1){
                 leftWheelSpeed = -1.0;
                 rightWheelSpeed = -1.0;
             }else{
                 // speed decrease mode
-                while (leftWheelSpeed > -20){
                 leftWheelSpeed = leftWheelSpeed - 0.2;
                 rightWheelSpeed = rightWheelSpeed - 0.2;
-                } 
             }
 
         }else if(msg.data == "a"){
