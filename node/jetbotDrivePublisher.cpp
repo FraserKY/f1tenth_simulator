@@ -3,6 +3,7 @@
 #include <std_msgs/Float64MultiArray.h>
 #include <std_msgs/String.h>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -71,9 +72,11 @@ public:
             // If in increase mode, swap to constant
             if (mode == 2){
                 mode = 1;
+                cout << "Constant Speed Mode"
                 // else swap to increase
             }else{
                 mode = 2;
+                cout << "Game Mode";
             }
         }
 
