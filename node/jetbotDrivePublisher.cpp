@@ -23,14 +23,18 @@ public:
     {
         n = ros::NodeHandle("~");
 
+        // Create variables for parameters
         std::string diff_drive_topic, mux_topic, joy_topic, key_topic;
+        // Get parameters from parameter Server dictionary'getParam(<key>, <storage variable>)'
 	    n.getParam("diff_drive_topic", diff_drive_topic);
         n.getParam("keyboard_topic", key_topic);
         n.getParam("jetbot_rotation_wheel_speed_scale", rotationWheelSpeedScale);
 
-
         diff_drive_pub = n.advertise<std_msgs::Float64MultiArray>(diff_drive_topic, 10);
 
+
+
+        // Subscribes to the key_topic topic, then calls the key_callback function whenever a message arrives. The 2nd argument is the queue size.
         key_sub = n.subscribe(key_topic, 1, &jetbotDriveCmd::key_callback, this);
 
     }
@@ -38,10 +42,14 @@ public:
 
     void publish_to_diff_drive(double rightWheelTrq,double leftWheelTrq)
     {
+        // Creates an array 
         std_msgs::Float64MultiArray diffDriveMsg;
-	diffDriveMsg.data.clear();
-	diffDriveMsg.data.push_back(rightWheelTrq);
-	diffDriveMsg.data.push_back(leftWheelTrq);
+        //clears the array
+	    diffDriveMsg.data.clear();
+        // Adds rightWheelTrq to the end of the array
+	    diffDriveMsg.data.push_back(rightWheelTrq);
+	    diffDriveMsg.data.push_back(leftWheelTrq);
+        // Publishes array
         diff_drive_pub.publish(diffDriveMsg);
     }
 
@@ -56,11 +64,11 @@ public:
             rightWheelSpeed = 1.0;
 
         }else if (msg.data == "c"){
-	        double tc_radius = 4;
-	        double wheel_track = 0.1;
-	        double wheel_d_inside = 2 * 3.14 * tc_radius;
-	        double wheel_d_outside = 2 * 3.14 * (tc_radius + wheel_track);
-	        double ratio = wheel_d_outside / wheel_d_inside;
+            double tc_radius = 4;
+            double wheel_track = 0.1;
+            double wheel_d_inside = 2 * 3.14 * tc_radius;
+            double wheel_d_outside = 2 * 3.14 * (tc_radius + wheel_track);
+            double ratio = wheel_d_outside / wheel_d_inside;
             leftWheelSpeed = 0.5;
             rightWheelSpeed = leftWheelSpeed*ratio;
 
@@ -76,6 +84,10 @@ public:
             leftWheelSpeed = 1.0*rotationWheelSpeedScale;
             rightWheelSpeed = -1.0*rotationWheelSpeedScale;
         }else if (msg.data ==" "){
+            leftWheelSpeed = 0.0;
+            rightWheelSpeed = 0.0;
+        // 
+        }else if (msg.data ==""){
             leftWheelSpeed = 0.0;
             rightWheelSpeed = 0.0;
         }else {
