@@ -2,6 +2,9 @@
 #include <ros/console.h>
 #include <std_msgs/Float64MultiArray.h>
 #include <std_msgs/String.h>
+#include <string>
+
+using namespace std;
 
 class jetbotDriveCmd
 {
