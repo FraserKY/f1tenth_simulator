@@ -21,6 +21,7 @@ void sigHandler(int not_used) {
 int main(int argc, char ** argv) {
 
     // Initialise the ROS Node, contacts the ROS master and registers the node in the system
+    // ros:: refers to the library from which 'init' is called
     ros::init(argc, argv, "keyboard");
 
     // Initialize Node Handle
@@ -46,7 +47,7 @@ int main(int argc, char ** argv) {
     newt = oldt;
     newt.c_lflag &= ~(ICANON);
 
-    // tcsetattr sets parameters associated with the termina;
+    // tcsetattr sets parameters associated with the terminal
     tcsetattr( STDIN_FILENO, 0, &newt);
 
 
