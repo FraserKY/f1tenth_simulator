@@ -22,7 +22,7 @@ private:
     double rotationWheelSpeedScale;
     double leftWheelSpeed = 0;
     double rightWheelSpeed = 0;
-    double mode = 2;
+    unsigned int mode = 2;
 
 public:
     jetbotDriveCmd()
@@ -31,10 +31,14 @@ public:
 
         // Create variables for parameters
         std::string diff_drive_topic, mux_topic, joy_topic, key_topic;
+        double speed_increment, wheel_track;
         // Get parameters from parameter Server dictionary'getParam(<key>, <storage variable>)'
 	    n.getParam("diff_drive_topic", diff_drive_topic);
         n.getParam("keyboard_topic", key_topic);
         n.getParam("jetbot_rotation_wheel_speed_scale", rotationWheelSpeedScale);
+        n.getParam("jetbot_width", wheel_track);
+        n.getParam("speed_increment", speed_increment);
+
 
         // Advertise tells ROS master you want to publish information on a given topic (diff_drive_topic), 
         // Returns a publisher object that allows you to publish to the topic, using the .publish command
@@ -86,18 +90,17 @@ public:
                 rightWheelSpeed = 1.0;
             }else{
                 // speed increase mode
-                leftWheelSpeed = leftWheelSpeed + 0.2;
-                rightWheelSpeed = rightWheelSpeed + 0.2; 
+                leftWheelSpeed = leftWheelSpeed + speed_increment;
+                rightWheelSpeed = rightWheelSpeed + speed_increment; 
             }
 
         }else if (msg.data == "c"){
             double tc_radius = 4;
-            double wheel_track = 0.1;
             double wheel_d_inside = 2 * 3.14 * tc_radius;
             double wheel_d_outside = 2 * 3.14 * (tc_radius + wheel_track);
             double ratio = wheel_d_outside / wheel_d_inside;
             leftWheelSpeed = 0.5;
-            rightWheelSpeed = leftWheelSpeed*ratio;
+            rightWheelSpeed = leftWheelSpeed * ratio;
 
         }else if(msg.data=="s"){
 
@@ -106,8 +109,8 @@ public:
                 rightWheelSpeed = -1.0;
             }else{
                 // speed decrease mode
-                leftWheelSpeed = leftWheelSpeed - 0.2;
-                rightWheelSpeed = rightWheelSpeed - 0.2;
+                leftWheelSpeed = leftWheelSpeed - speed_increment;
+                rightWheelSpeed = rightWheelSpeed - speed_increment;
             }
 
         }else if(msg.data == "a"){

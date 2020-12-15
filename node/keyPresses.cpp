@@ -34,13 +34,12 @@ int main(int argc, char ** argv){
     // create an array to store characters in
     std::string keys_pressed;
 
-    // loop rate (1hz, 1 per second)
-    ros::Rate loop_rate(1);
-
     // need a loop that publishes the length of keys_pressed, and the last character
     // then resets contents of keys_pressed every second. Needs to allow tracking function to be called
     // whenever a new key is pressed
-
+    // Create a Ros timer for publishing the key presses
+    ros::Timer timerPublishToTopic = 
+                    nh.createTimer(ros::Rate(1), //callback function);
 
 
 }

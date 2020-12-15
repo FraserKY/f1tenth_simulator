@@ -34,6 +34,7 @@ jetbot_wheel_damping: 0.1 # damping factor to slow down the wheels when no torqu
 angular_velocity_threshold: 0.1 # threshold to avoid singular turn radius in dynamics  
 # The rate at which the pose and the lidar publish
 update_pose_rate: 0.001
+speed_increment: 0.2
 
 # Lidar simulation parameters
 scan_beams: 1080
