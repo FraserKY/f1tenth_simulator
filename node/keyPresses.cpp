@@ -7,6 +7,10 @@
 // Allow printing to terminal
 #include <iostream>
 
+//Declare functions
+void key_tracker(const std_msgs::String & msg);
+string num_and_last_key(string * keys_pressed)
+
 int main(int argc, char ** argv){
 
     // Initialise the node
@@ -17,7 +21,7 @@ int main(int argc, char ** argv){
 
     // Tell master that we will be publishing on a topic
     // Creates an object 'key_press' that can be used to publish to the topic
-    ros::Publisher key_press_info = n.advertise<std_msgs::String>(key_presses_topic, 100);
+    ros::Publisher key_press_info = nh.advertise<std_msgs::string>(key_presses_topic(), 100);
     
     // Need to subscribe to topic
     // Create variable for topic to subscribe to
@@ -39,7 +43,7 @@ int main(int argc, char ** argv){
     // whenever a new key is pressed
     
     // 
-    ros::Rate(1)
+    ros::Rate(1);
 
     //Call publish function
     while(ros::ok())
@@ -60,14 +64,14 @@ int main(int argc, char ** argv){
 }
 
 // A function to keep track of keys pressed..
-void key_tracker(const std_msgs::String & msg){
+void key_tracker(const std_msgs::string & msg){
 
     // Add new key to end of string
     keys_pressed.append(msg.data);
 
 }
 
-char num_and_last_key(string *keys_pressed){
+string num_and_last_key(string * keys_pressed){
     //  Get length
     int length = keys_pressed.size();
     std::string last = keys_pressed.back();
