@@ -23,6 +23,7 @@ private:
     double leftWheelSpeed = 0;
     double rightWheelSpeed = 0;
     unsigned int mode = 2;
+    double speed_increment, wheel_track;
 
 public:
     jetbotDriveCmd()
@@ -31,7 +32,6 @@ public:
 
         // Create variables for parameters
         std::string diff_drive_topic, mux_topic, joy_topic, key_topic;
-        double speed_increment, wheel_track;
         // Get parameters from parameter Server dictionary'getParam(<key>, <storage variable>)'
 	    n.getParam("diff_drive_topic", diff_drive_topic);
         n.getParam("keyboard_topic", key_topic);
