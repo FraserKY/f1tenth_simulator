@@ -9,8 +9,8 @@
 #include <std_msgs/String.h>
 
 //Declare functions
-void key_tracker(const std_msgs::String & msg);
-string num_and_last_key(string keys_pressed)
+std::string key_tracker(const std_msgs::String & msg);
+void num_and_last_key(string keys_pressed)
 
 int main(int argc, char ** argv){
 
@@ -31,13 +31,14 @@ int main(int argc, char ** argv){
     // Get name of topic to subscribe from param server
     nh.getParam("keyboard_topic", keyboard_topic);
 
+    // create an array to store characters in
+    std::string keys_pressed;
+
     // create subscriber, subscibes to topic stored in var keyboard_topic
     // sets a queue size, and then the function to be called when a message
     // is recieved
-    ros::Subscriber sub = nh.subscribe(keyboard_topic, 10, key_tracker())
+    ros::Subscriber sub = nh.subscribe(keyboard_topic, 10, keys_pressed = key_tracker())
 
-    // create an array to store characters in
-    std::string keys_pressed;
 
     // need a loop that publishes the length of keys_pressed, and the last character
     // then resets contents of keys_pressed every second. Needs to allow tracking function to be called
@@ -65,11 +66,12 @@ int main(int argc, char ** argv){
 }
 
 // A function to keep track of keys pressed..
-void key_tracker(const std_msgs::string & msg){
+std::string key_tracker(const std_msgs::String & msg, std::string keys_pressed){
 
     // Add new key to end of string
     keys_pressed.append(msg.data);
 
+    return keys_pressed;
 }
 
 void num_and_last_key(string keys_pressed){
