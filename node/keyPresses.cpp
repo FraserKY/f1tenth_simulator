@@ -9,7 +9,7 @@
 #include <std_msgs/String.h>
 
 //Declare functions
-std::string key_tracker(const std_msgs::String & msg);
+std::string key_tracker(const std_msgs::String & msg, std::string keys_pressed);
 void num_and_last_key(std::string keys_pressed);
 
 int main(int argc, char ** argv){
@@ -36,7 +36,7 @@ int main(int argc, char ** argv){
 
     // create subscriber, subscribes to topic stored in var keyboard_topic
     // sets a queue size, and then the function to be called when a message
-    // is recieved
+    // is received
     ros::Subscriber sub = nh.subscribe(keyboard_topic, 10, keys_pressed = key_tracker(this, keys_pressed))
 
 
