@@ -72,7 +72,7 @@ void key_tracker(const std_msgs::string & msg){
 
 }
 
-string num_and_last_key(string keys_pressed){
+void num_and_last_key(string keys_pressed){
     //  Get length
     int length = keys_pressed.size();
     std::string last = keys_pressed.back();
@@ -81,5 +81,5 @@ string num_and_last_key(string keys_pressed){
 
     ROS_INFO("%s", result);
 
-    return result; 
+    return 0; 
 }
