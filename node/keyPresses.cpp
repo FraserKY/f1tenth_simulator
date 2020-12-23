@@ -9,7 +9,7 @@
 
 //Declare functions
 void key_tracker(const std_msgs::String & msg);
-string num_and_last_key(string * keys_pressed)
+string num_and_last_key(string keys_pressed)
 
 int main(int argc, char ** argv){
 
@@ -71,12 +71,14 @@ void key_tracker(const std_msgs::string & msg){
 
 }
 
-string num_and_last_key(string * keys_pressed){
+string num_and_last_key(string keys_pressed){
     //  Get length
     int length = keys_pressed.size();
     std::string last = keys_pressed.back();
 
     result = "The number of keys pressed: " + to_string(length) + ". The last key pressed was" + last;
+
+    ROS_INFO("%s", result);
 
     return result; 
 }
