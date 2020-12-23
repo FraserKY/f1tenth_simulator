@@ -34,7 +34,7 @@ int main(int argc, char ** argv){
     // create an array to store characters in
     std::string keys_pressed;
 
-    // create subscriber, subscibes to topic stored in var keyboard_topic
+    // create subscriber, subscribes to topic stored in var keyboard_topic
     // sets a queue size, and then the function to be called when a message
     // is recieved
     ros::Subscriber sub = nh.subscribe(keyboard_topic, 10, keys_pressed = key_tracker(this, keys_pressed))
@@ -79,7 +79,7 @@ void num_and_last_key(std::string keys_pressed){
     int length = keys_pressed.size();
     std::char last = keys_pressed.back();
 
-    result = "The number of keys pressed: " + length + ". The last key pressed was" + last;
+    result = "The number of keys pressed: " + std::to_string(length) + ". The last key pressed was" + last;
 
     ROS_INFO("%s", result);
 
