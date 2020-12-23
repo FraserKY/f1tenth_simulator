@@ -7,10 +7,11 @@
 // Allow printing to terminal
 #include <iostream>
 #include <std_msgs/String.h>
+#include <ros/console.h>
 
 //Declare functions
-std::string key_tracker(const std_msgs::String & msg, std::string keys_pressed);
-void num_and_last_key(std::string keys_pressed);
+void key_reciever(const std_msgs::String & msg);
+std::string num_and_last_key(std::string keys_pressed);
 
 int main(int argc, char ** argv){
 
@@ -37,7 +38,7 @@ int main(int argc, char ** argv){
     // create subscriber, subscribes to topic stored in var keyboard_topic
     // sets a queue size, and then the function to be called when a message
     // is received
-    ros::Subscriber sub = nh.subscribe(keyboard_topic, 10, keys_pressed = key_tracker(this, keys_pressed))
+    ros::Subscriber sub = nh.subscribe(keyboard_topic, 10, key_reciever);
 
 
     // need a loop that publishes the length of keys_pressed, and the last character
@@ -51,14 +52,16 @@ int main(int argc, char ** argv){
     while(ros::ok())
     {
         //function that returns number of characters and final character
-        std::string message = num_and_last_key(keys_pressed);
+        std_msgs::String message;
+        message.data = num_and_last_key(keys_pressed);
+        ROS_INFO("Entered while loop keyPresses.cpp\n");
 
         //publish to topic 
         key_press_info.publish(message);
-        ROS_INFO("%s", message.c_str());
+        ROS_INFO("%s", message.data.c_str());
 
         // Clear string
-        key_presses.clear();
+        keys_pressed.clear();
 
         ros::spin();
     }
@@ -66,22 +69,25 @@ int main(int argc, char ** argv){
 }
 
 // A function to keep track of keys pressed..
-std::string key_tracker(const std_msgs::String & msg, std::string keys_pressed){
+// I think i need a function to get the key when the subscriber function is called
+// then i need to pass it back into main?, this way I can then add it to main
+void key_reciever(const std_msgs::String & msg){
 
     // Add new key to end of string
-    keys_pressed.append(msg.data);
+    //keys_pressed.append(msg.data);
+    ROS_INFO("%s", msg.data.c_str());
 
-    return keys_pressed;
+    //return keys_pressed;
 }
 
-void num_and_last_key(std::string keys_pressed){
+std::string num_and_last_key(std::string keys_pressed){
     //  Get length
     int length = keys_pressed.size();
-    std::char last = keys_pressed.back();
+    char last = keys_pressed.back();
 
-    result = "The number of keys pressed: " + std::to_string(length) + ". The last key pressed was" + last;
+    std::string result = "The number of keys pressed: " + std::to_string(length) + ". The last key pressed was" + last;
 
-    ROS_INFO("%s", result);
+    ROS_INFO("%s", result.c_str());
 
-    return 0; 
+    return result;
 }
