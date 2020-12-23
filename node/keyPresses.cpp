@@ -6,6 +6,7 @@
 
 // Allow printing to terminal
 #include <iostream>
+#include <std_msgs/String.h>
 
 //Declare functions
 void key_tracker(const std_msgs::String & msg);
