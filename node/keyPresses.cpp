@@ -17,6 +17,7 @@ int main(int argc, char ** argv){
 
     // Initialise the node
     ros::init(argc, argv, "key_presses");
+    ROS_INFO("keyPresses Node Initialised\n");
 
     // Start the node
     ros::NodeHandle nh;
@@ -24,7 +25,8 @@ int main(int argc, char ** argv){
     // Tell master that we will be publishing on a topic
     // Creates an object 'key_press' that can be used to publish to the topic
     ros::Publisher key_press_info = nh.advertise<std_msgs::String>("key_press_info", 3);
-    
+    ROS_INFO("Publisher Created\n");
+
     // Need to subscribe to topic
     // Create variable for topic to subscribe to
     std::string keyboard_topic;
