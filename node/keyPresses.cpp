@@ -9,7 +9,7 @@
 #include <std_msgs/String.h>
 #include <ros/console.h>
 
-//Declare functions
+// Declare functions
 void key_reciever(const std_msgs::String & msg);
 std::string num_and_last_key(std::string keys_pressed);
 
@@ -55,7 +55,7 @@ int main(int argc, char ** argv){
     {
         //function that returns number of characters and final character
         std_msgs::String message;
-        message.data = num_and_last_key(keys_pressed);
+        message = num_and_last_key(keys_pressed);
         ROS_INFO("Entered while loop keyPresses.cpp\n");
 
         //publish to topic 
