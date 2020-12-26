@@ -19,7 +19,7 @@
     <rosparam command="load" file="$(find f1tenth_simulator)/params.yaml"/>
   </node>
 
-  <node pkg="f1tenth_simulator" name="newNode" type="keyPresses" output="screen">
+  <node pkg="f1tenth_simulator" name="key_presses" type="key_press_info" output="screen">
     <rosparam command="load" file="$(find f1tenth_simulator)/params.yaml"/>
   </node>
   
