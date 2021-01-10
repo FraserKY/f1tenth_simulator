@@ -50,6 +50,9 @@ public:
         // The 2nd argument is the queue size.
         key_sub = n.subscribe(key_topic, 1, &jetbotDriveCmd::key_callback, this);
 
+        // Find a method to repeatedly call key_callback function, with 'no_key' arguement in order to decelerate vehicle.
+        n.createTimer(ros.Duration(2.0), boost::bind(&jetbotDriveCmd::key_callback, "no_key"));
+
     }
 
 
@@ -89,7 +92,7 @@ public:
                 leftWheelSpeed = 1.0;
                 rightWheelSpeed = 1.0;
             }else{
-                // speed increase mode
+                // speed increase mode (forwards)
                 leftWheelSpeed = leftWheelSpeed + speed_increment;
                 rightWheelSpeed = rightWheelSpeed + speed_increment; 
             }
@@ -103,12 +106,11 @@ public:
             rightWheelSpeed = leftWheelSpeed * ratio;
 
         }else if(msg.data=="s"){
-
+            // speed decrease mode (backwards)
             if (mode == 1){
                 leftWheelSpeed = -1.0;
                 rightWheelSpeed = -1.0;
             }else{
-                // speed decrease mode
                 leftWheelSpeed = leftWheelSpeed - speed_increment;
                 rightWheelSpeed = rightWheelSpeed - speed_increment;
             }
@@ -123,11 +125,23 @@ public:
         }else if (msg.data ==" "){
             leftWheelSpeed = 0.0;
             rightWheelSpeed = 0.0;
+        }else if(msg.data = "no_key"){
+            if (mode == 2){
+                // Decelerate Vehicle, only works in forward mode.
+                // Designed to be called repeatedly if there is no other input.
+                if (leftWheelSpeed >= 0.1){
+                    leftWheelSpeed = leftWheelSpeed - 0.1;
+                    rightWheelSpeed = rightWheelSpeed - 0.1;
+                } else if (leftWheelSpeed > 0){
+                    leftWheelSpeed = 0;
+                    rightWheelSpeed = 0;
+                }
+            }
         }else {
             publish = false;
         }
         if (publish){
-            publish_to_diff_drive(rightWheelSpeed , leftWheelSpeed);
+            publish_to_diff_drive(rightWheelSpeed, leftWheelSpeed);
         }
     }
 
